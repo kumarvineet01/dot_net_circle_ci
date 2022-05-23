@@ -1,11 +1,24 @@
 version: 2.1
-workflows:
-  testing:
-    jobs:
-      - runner-test
+executors:
+  my-custom-executor:
+    docker:
+      - image: ubuntu-2004
+        auth:
+          # ensure you have first added these secrets
+          # visit app.circleci.com/settings/project/github/kumarvineet01/dot_net_circle_ci/environment-variables
+          username: $DOCKER_HUB_USER
+          password: $DOCKER_HUB_PASSWORD
 jobs:
-  runner-test:
-    machine: true
-    resource_class: kumarvineet01/ci_cd
+  dot_net_circle_ci:
+
+    executor: my-custom-executor
     steps:
-      - run: echo "Hi I'm on Runners!"
+      - checkout
+      - run: |
+          dotnet build
+          
+
+workflows:
+  my-custom-workflow:
+    jobs:
+      - my-job-name
