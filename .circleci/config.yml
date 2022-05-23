@@ -1,24 +1,14 @@
-version: 2.1
-executors:
-  my-custom-executor:
+orbs:
+  dotnet-sonarscanner: storytel/dotnet-sonarscanner@1.4.3
+  
+ jobs:
+  example-job:
     docker:
-      - image: ubuntu-2004
-        auth:
-          # ensure you have first added these secrets
-          # visit app.circleci.com/settings/project/github/kumarvineet01/dot_net_circle_ci/environment-variables
-          username: $DOCKER_HUB_USER
-          password: $DOCKER_HUB_PASSWORD
-jobs:
-  dot_net_circle_ci:
-
-    executor: my-custom-executor
+      # replace with your preferred image
+      - image: cimg/base:stable
     steps:
-      - checkout
-      - run: |
-          dotnet build
-          
-
+      - dotnet-sonarscanner/sonar-end
 workflows:
-  my-custom-workflow:
+  example-workflow:
     jobs:
-      - my-job-name
+      - example-job
